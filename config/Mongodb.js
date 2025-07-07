@@ -6,18 +6,18 @@ dotenv.config();
 const connectDb = async () => {
     try {
 
-        mongoose.connection.on("error" , (error)=>{
+        mongoose.connection.on("error", (error) => {
             console.error("MongoDB connection error:", error);
         })
-        
+
 
         const url = `${process.env.MONGODB_URL}MentorshipProject`;
         console.log(url);
         await mongoose.connect(url);
         console.log("database connected successfully");
-   }catch (error){
-      console.log(error)
+    } catch (error) {
+        console.log(error)
 
-   }
+    }
 }
 export default connectDb;
