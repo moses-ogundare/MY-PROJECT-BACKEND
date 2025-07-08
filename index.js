@@ -7,26 +7,30 @@ import connectDb from "./config/Mongodb.js";
 import AuthRoutes from "./routes/AuthRoutes.js";
 import profileRoutes from "./routes/profile.js";
 
-
-const app = express();
 dotenv.config();
 
+const app = express();
+const port = process.env.PORT || 8000;
+
+// Middlewares
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }))
 
-app.use("/api/auth", AuthRoutes)
-app.use("/api/profile", profileRoutes)
-// connecting to database
+// Routes
+app.use("/api/auth", AuthRoutes);
+app.use("/api/profile", profileRoutes);
 
+// Test Route
 app.get("/", (req, res) => {
-    res.send("Welcome to the Mentorship Platform API");
+  res.send("Welcome to the Mentorship Platform API");
 });
 
-connectDb();
-
-app.listen(8000, async () => {
-    // connecting to database
-    await connectDb();
-    console.log("server is running")
+// Connect to DB 
+connectDb().then(() => {
+  app.listen(port, () => {
+    console.log("Server running on port ");
+  });
+}).catch((err) => {
+  console.error(" MongoDB connection failed:", err.message);
 });

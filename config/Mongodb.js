@@ -11,9 +11,9 @@ const connectDb = async () => {
         })
 
 
-        const url = `${process.env.MONGODB_URL}MentorshipProject`;
-        console.log(url);
-        await mongoose.connect(url);
+        const uri = `${process.env.MONGODB_URL}MentorshipProject`;
+        console.log(uri);
+        await mongoose.connect(uri);
         console.log("database connected successfully");
     } catch (error) {
         console.log(error)
