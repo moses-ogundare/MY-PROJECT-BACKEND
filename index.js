@@ -13,9 +13,16 @@ const app = express();
 const port = process.env.PORT || 8000;
 
 // Middlewares
-app.use(cors());
 app.use(express.json());
-app.use(cookieParser());
+app.use(cookieParser())
+
+const allowOrigin =["https://my-project-frontend-one.vercel.app",""]
+app.use(cors({
+  origin:allowOrigin,
+  credentials:true,
+  methods:["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders:["content-type", "Authorization"]
+}))
 
 // Routes
 app.use("/api/auth", AuthRoutes);
