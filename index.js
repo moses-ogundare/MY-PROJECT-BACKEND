@@ -16,7 +16,7 @@ const port = process.env.PORT || 8000;
 app.use(express.json());
 app.use(cookieParser())
 
-const allowOrigin =["https://my-project-frontend-one.vercel.app","http://localhost:5173/"]
+const allowOrigin =["https://my-project-frontend-one.vercel.app","http://localhost:5173"]
 app.use(cors({
   origin:allowOrigin,
   credentials:true,
