@@ -48,7 +48,7 @@ const register = async (req, res) => {
     // Set cookie with token
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: "strict",
       maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
     });
@@ -102,7 +102,7 @@ const login = async (req, res) => {
       // Set cookie with token
       res.cookie("token", token, {
         httpOnly: true,
-        secure: true,
+        secure: false,
         sameSite: "strict",
         maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
       });
