@@ -20,13 +20,13 @@ const register = async (req, res) => {
 
     // Hash password
     const salt = 10;
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashPassword = await bcrypt.hash(password, salt);
 
     // Create new user instance
     const user = new AuthModel({
       name,
       email,
-      password: hashedPassword,
+      password: hashPassword,
       role,
     });
 
@@ -34,11 +34,6 @@ const register = async (req, res) => {
     await user.save();
 
     // Generate JWT token
-    const secretKey = process.env.JWT_SECRETKEY;
-    if (!secretKey) {
-      throw new Error("JWT_SECRETKEY is not defined in .env");
-    }
-
     const token = jwt.sign(
       { id: user._id, role: user.role },
       secretKey,
@@ -48,7 +43,7 @@ const register = async (req, res) => {
     // Set cookie with token
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "strict",
       maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
     });
@@ -66,7 +61,7 @@ const register = async (req, res) => {
     });
 
   } catch (error) {
-    console.error("Registration error:", error);
+    console.log("Registration error:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -89,7 +84,7 @@ const login = async (req, res) => {
       // Compare passwords
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(400).json({ message: "Invalid email or password" });
+        return res.status(400).json({ message: "used email or password" });
       }
   
       // Generate token
@@ -120,7 +115,7 @@ const login = async (req, res) => {
       });
   
     } catch (error) {
-      console.error("Login error:", error);
+      console.log("Login error:", error);
       res.status(500).json({ message: "Server error" });
     }
   };
@@ -135,7 +130,7 @@ const login = async (req, res) => {
   
       return res.status(200).json({ message: "User logged out successfully" });
     } catch (error) {
-      console.error("Logout error:", error);
+      console.log("Logout error:", error);
       return res.status(500).json({ message: "Server error during logout" });
     }
   };

@@ -6,11 +6,12 @@ import bodyParser from "body-parser";
 import connectDb from "./config/Mongodb.js";
 import AuthRoutes from "./routes/AuthRoutes.js";
 import profileRoutes from "./routes/profile.js";
-
+import mentorRoutes from "./routes/mentorRoutes.js";
 dotenv.config();
 
-const app = express();
 const port = process.env.PORT || 8000;
+const app = express();
+ 
 
 // Middlewares
 app.use(express.json());
@@ -27,6 +28,7 @@ app.use(cors({
 // Routes
 app.use("/api/auth", AuthRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/", mentorRoutes);
 
 // Test Route
 app.get("/", (req, res) => {
